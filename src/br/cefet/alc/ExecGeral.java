@@ -16,8 +16,9 @@ import br.cefet.alc.metodositerativos.naoestacionarios.GradienteDescendente;
 import br.cefet.alc.metodositerativos.naoestacionarios.GradienteModificado;
 import br.cefet.alc.metodositerativos.naoestacionarios.MultiGrid;
 
-
-
+/**
+ * @author rtavares
+ */
 public class ExecGeral {
 	
 	public static void main(String[] args) {
