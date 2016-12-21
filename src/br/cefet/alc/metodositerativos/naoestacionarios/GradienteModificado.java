@@ -12,6 +12,8 @@ public class GradienteModificado implements Metodo {
 	
 	private static final int t = 1;
 	
+	private static final int maxIter = 10000;
+	
 	@Override
 	public void executar(double[][] matriz) throws Exception {
 		
@@ -37,7 +39,7 @@ public class GradienteModificado implements Metodo {
 		
 		int iteracao = 0;
 		
-		while(!convergeSolucao(s, iteracao)){
+		while(!convergeSolucao(s, iteracao) && iteracao <= maxIter){
 			
 			iteracao++;
 			

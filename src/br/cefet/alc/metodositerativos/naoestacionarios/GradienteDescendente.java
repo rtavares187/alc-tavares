@@ -10,6 +10,8 @@ public class GradienteDescendente implements Metodo {
 	
 	private static final double e = 0.01;
 	
+	private static final int maxIter = 100;
+	
 	@Override
 	public void executar(double[][] matriz) throws Exception {
 		
@@ -30,7 +32,7 @@ public class GradienteDescendente implements Metodo {
 		
 		int iteracao = 0;
 		
-		while(!convergeSolucao(r, iteracao)){
+		while(!convergeSolucao(r, iteracao) && iteracao <= maxIter){
 			
 			iteracao++;
 			
