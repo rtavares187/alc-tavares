@@ -1,12 +1,34 @@
-package br.cefet.alc.metodosdiretos;
+package br.cefet.alc.metodosdiretos.compactados;
 
+import br.cefet.alc.matrix.CSRMatrix;
+import br.cefet.alc.metodosdiretos.Metodo;
 import br.cefet.alc.util.Util;
 
 
 /**
  * @author rtavares
  */
-public class DecomposicaoLU implements Metodo {
+public class DecomposicaoLUComp implements Metodo {
+	
+	public static void main(String[] args){
+		
+		double[][] matriz = new double[][]{
+				
+				{2, -1, 4, 0, 5}, 
+				{4, -1, 5, 1, 9},
+				{-2, 2, -2, 3, 1},
+				{0, 3, -9, 4, -2}
+				};
+		
+		try{
+			
+			new DecomposicaoLUComp().executar(matriz);
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+	}
 	
 	@Override
 	public void executar(double[][] matriz) throws Exception {
@@ -17,36 +39,41 @@ public class DecomposicaoLU implements Metodo {
 	
 	public double[] getX(double[][] matriz) throws Exception {
 		
-		Util.get().escrever("Matir Original: ");
+		Util.get().escrever("Matriz Original: ");
 		Util.get().escreveMatriz(matriz);
 		
-		double[][] a = Util.get().getMatrizA(matriz);
-		double[] b = Util.get().getMatrizB(matriz);
+		CSRMatrix cm = new CSRMatrix(matriz);
 		
-		int m = a.length;
+		Util.get().escrever("");
+		Util.get().escrever("Matriz Compactada: ");
+		Util.get().escreveMatrizCSR(cm);
+		
+		int m = cm.getN();
 		
 		int[] permut = new int[m];
 		
 		for (int i = 0; i < m; i++)
 			permut[i] = i;
 		
-		double[][] LU = getLU(a, permut);
+		double[] b = cm.getB();
+		
+		CSRMatrix LU = getLU(cm, permut);
 		
 		Util.get().escrever("");
  		Util.get().escrever("LU: ");
-        Util.get().escreveMatriz(LU);
+        Util.get().escreveMatrizCSR(LU);
 		
-		double[][] L = getL(LU);
+        CSRMatrix L = getL(LU);
 		
 		Util.get().escrever("");
  		Util.get().escrever("L: ");
-        Util.get().escreveMatriz(L);
+        Util.get().escreveMatrizCSR(L);
 		
-		double[][] U = getU(LU);
+        CSRMatrix U = getU(LU);
         
 		Util.get().escrever("");
         Util.get().escrever("U: ");
-        Util.get().escreveMatriz(U);
+        Util.get().escreveMatrizCSR(U);
 		
         double[] bPerm = new double[m];
         for(int i = 0; i < m; i++)
@@ -54,22 +81,22 @@ public class DecomposicaoLU implements Metodo {
         
 		// L * y = b
 		
-		double[] y = new double[L.length];
+		double[] y = new double[m];
 		
-		for(int i = 0; i < L.length; i++){
+		for(int i = 0; i < m; i++){
 			
 			double soma = 0;
 			
-			for(int j = 0; j < L[i].length; j++){
+			for(int j = 0; j < m; j++){
 				
 				if(i == j)
 					continue;
 				
-				soma = soma + (L[i][j] * y[j]);
+				soma = soma + (L.getValor(i, j) * y[j]);
 				
 			}
 			
-			y[i] = (bPerm[i] - soma) / L[i][i];
+			y[i] = (bPerm[i] - soma) / L.getValor(i, i);
 			
 		}
 		
@@ -79,22 +106,22 @@ public class DecomposicaoLU implements Metodo {
 		
 		// U * x = y
 		
-		double[] x = new double[U.length];
+		double[] x = new double[m];
 		
-		for(int i = (U.length - 1); i >= 0; i--){
+		for(int i = (m - 1); i >= 0; i--){
 			
 			double soma = 0;
 			
-			for(int j = (U.length - 1); j >= 0; j--){
+			for(int j = (m - 1); j >= 0; j--){
 				
 				if(i == j)
 					continue;
 				
-				soma = soma + (U[i][j] * x[j]);
+				soma = soma + (U.getValor(i, j) * x[j]);
 				
 			}
 			
-			x[i] = (y[i] - soma) / U[i][i];
+			x[i] = (y[i] - soma) / U.getValor(i, i);
 			
 		}
 		
@@ -106,12 +133,12 @@ public class DecomposicaoLU implements Metodo {
 		
 	}
 	
-	public double[][] getLU(double[][] a, int[] permut){
+	public CSRMatrix getLU(CSRMatrix cm, int[] permut){
 		
-		double[][] LU = a;
+		CSRMatrix LU = cm;
 		
-		int m = LU.length;
-		int n = LU[0].length;
+		int m = cm.getN();
+		int n = cm.getN();
 		
 		int pivot = 1;
 		double[] LUlinhai;
@@ -120,11 +147,13 @@ public class DecomposicaoLU implements Metodo {
 	    for (int j = 0; j < n; j++) {
 
 	         for (int i = 0; i < m; i++)
-	        	 LUcolunaj[i] = LU[i][j];
+	        	 LUcolunaj[i] = LU.getValor(i, j);
+	        	 //LUcolunaj[i] = LU[i][j];
 	         
 	         for (int i = 0; i < m; i++) {
-	            
-	        	 LUlinhai = LU[i];
+	        	 
+	        	 LUlinhai = LU.getLinha(i);
+	        	 //LUlinhai = LU[i];
 
 	        	 int kmax = Math.min(i,j);
 	        	 double soma = 0.0;
@@ -151,9 +180,14 @@ public class DecomposicaoLU implements Metodo {
 	            
 	        	 for (int k = 0; k < n; k++) {
 	               
-	        		 double t = LU[p][k]; 
-	        		 LU[p][k] = LU[j][k]; 
-	        		 LU[j][k] = t;
+	        		 double t = LU.getValor(p, k);
+	        		 //double t = LU[p][k]; 
+	        		 
+	        		 LU.setValor(p, k, LU.getValor(j, k));
+	        		 //LU[p][k] = LU[j][k]; 
+	        		 
+	        		 LU.setValor(j, k, t);
+	        		 //LU[j][k] = t;
 	        		 
 	            }
 	            
@@ -164,10 +198,11 @@ public class DecomposicaoLU implements Metodo {
 	            
 	         }
 
-	         if (j < m & LU[j][j] != 0.0) {
+	         if (j < m & LU.getValor(j, j) != 0.0) {
 	            
 	        	 for (int i = j+1; i < m; i++)
-	               LU[i][j] /= LU[j][j];
+	        		 LU.setValor(i, j, LU.getValor(i, j) / LU.getValor(j, j));
+	        		 //LU[i][j] /= LU[j][j];
 	            
 	         }
 	         
@@ -177,20 +212,32 @@ public class DecomposicaoLU implements Metodo {
 		
 	}
 	
-	public double[][] getL(double[][] LU) {
+	public CSRMatrix getL(CSRMatrix LU) {
 		
-		int n = LU.length;
+		int n = LU.getN();
 		
-		double[][] L = new double[n][n];
+		CSRMatrix L = new CSRMatrix(n);
+		
 		for (int i = 0; i < n; i++) {
+			
 			for (int j = 0; j < n; j++) {
+				
 				if (i > j) {
-					L[i][j] = LU[i][j];
+					
+					L.setValor(i, j, LU.getValor(i, j));
+					
 				} else if (i == j) {
-					L[i][j] = 1.0;
-				} else {
-					L[i][j] = 0.0;
+					
+					L.setValor(i, j, 1.0);
+					
 				}
+				/*	
+				} else {
+					
+					L.setValor(i, j, 0.0);
+					
+				}
+				*/
 			}
 	  }
 	  
@@ -198,18 +245,28 @@ public class DecomposicaoLU implements Metodo {
 		
 	}
 	
-	public double[][] getU(double[][] LU) {
+	public CSRMatrix getU(CSRMatrix LU) {
 		
-		int n = LU.length;
+		int n = LU.getN();
 		
-		double[][] U = new double[n][n];
+		CSRMatrix U = new CSRMatrix(n);
+		
 		for (int i = 0; i < n; i++) {
+			
 			for (int j = 0; j < n; j++) {
+				
 				if (i <= j) {
-					U[i][j] = LU[i][j];
-				} else {
-					U[i][j] = 0.0;
+					
+					U.setValor(i, j, LU.getValor(i, j));
+				
 				}
+				/*	
+				} else {
+					
+					U[i][j] = 0.0;
+					
+				}
+				*/
 			}
 		}
 		

@@ -1,7 +1,7 @@
 package br.cefet.alc.metodositerativos.estacionarios;
 
 import br.cefet.alc.metodosdiretos.Metodo;
-import br.cefet.alc.metodosdiretos.util.Util;
+import br.cefet.alc.util.Util;
 
 /**
  * @author rtavares

@@ -4,7 +4,6 @@ import br.cefet.alc.metodosdiretos.Cholesky;
 import br.cefet.alc.metodosdiretos.DecomposicaoLU;
 import br.cefet.alc.metodosdiretos.EliminacaoGaussiana;
 import br.cefet.alc.metodosdiretos.Metodo;
-import br.cefet.alc.metodosdiretos.util.Util;
 import br.cefet.alc.metodositerativos.estacionarios.GaussSeidelLinhas;
 import br.cefet.alc.metodositerativos.estacionarios.GaussSeidelSassenfeld;
 import br.cefet.alc.metodositerativos.estacionarios.Jacobi;
@@ -15,6 +14,7 @@ import br.cefet.alc.metodositerativos.naoestacionarios.GradienteConjugado;
 import br.cefet.alc.metodositerativos.naoestacionarios.GradienteDescendente;
 import br.cefet.alc.metodositerativos.naoestacionarios.GradienteModificado;
 import br.cefet.alc.metodositerativos.naoestacionarios.MultiGrid;
+import br.cefet.alc.util.Util;
 
 /**
  * @author rtavares

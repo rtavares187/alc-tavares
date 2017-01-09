@@ -1,4 +1,4 @@
-package br.cefet.alc.metodositerativos.naoestacionarios;
+package br.cefet.alc.metodosdiretos.compactados;
 
 import br.cefet.alc.metodosdiretos.Metodo;
 import br.cefet.alc.util.Util;
@@ -6,7 +6,7 @@ import br.cefet.alc.util.Util;
 /**
  * @author rtavares
  */
-public class GradienteModificado implements Metodo {
+public class GradienteModificadoComp implements Metodo {
 	
 	private static final double e = 0.01;
 	

@@ -5,6 +5,7 @@ import br.cefet.alc.metodosdiretos.DecomposicaoLU;
 import br.cefet.alc.metodosdiretos.EliminacaoGaussiana;
 import br.cefet.alc.metodosdiretos.Metodo;
 import br.cefet.alc.metodosdiretos.RegraDeCramer;
+import br.cefet.alc.metodosdiretos.compactados.DecomposicaoLUComp;
 import br.cefet.alc.metodositerativos.estacionarios.GaussSeidelLinhas;
 import br.cefet.alc.metodositerativos.estacionarios.GaussSeidelSassenfeld;
 import br.cefet.alc.metodositerativos.estacionarios.Jacobi;
@@ -37,7 +38,7 @@ public class Exec {
 			
 			// Decomposicao LU
 			
-			//decomposicaoLU();
+			decomposicaoLU();
 			
 			// Cholesky
 			
@@ -46,8 +47,6 @@ public class Exec {
 			//jacobi();
 			
 			//gaussSeidelSassenfeld();
-			
-			//System.out.println("### ----------------------------------- ###");
 			
 			//gaussSeidelLinhas();
 			
@@ -59,13 +58,13 @@ public class Exec {
 			
 			//GMRES();
 			
-			//System.out.println("### ----------------------------------- ###");
-			
-			GMRESX();
+			//GMRESX();
 			
 			//gradienteModificado();
 			
 			//multiGrid();
+			
+			//decomposicaoLUComp();
 			
 		}catch(Exception e){
 			
@@ -102,23 +101,25 @@ public class Exec {
 				{3, -2, 6}, // converge GS
 				{-5, 4, 8}
 				*/
-				
-				{3, -2, 4, 14}, 
-				{-5, 4, 1, 10},
-				{-1, 1, 3, 13}
-				
+				/*
+				{ 5,-1, 0,-2, 0, 2.5},
+				{-1, 4,-1, 0, 0, 1},
+				{ 0,-1, 6, 0,-3, 0},
+				{-2, 0, 0, 4, 0, 0},
+				{ 0, 0,-3, 0, 5, 1.5}
+				*/
 				/*
 				{2, 2, 1, 1, 7}, 
 				{1, -1, 2, -1, 1},
 				{3, 2, -3, -2, 4},
 				{4, 3, 2, 1, 12}
 				*/
-				/*
+				
 				{2, -1, 4, 0, 5}, 
 				{4, -1, 5, 1, 9},
 				{-2, 2, -2, 3, 1},
 				{0, 3, -9, 4, -2}
-				*/
+				
 				/*
 				{ 5,-1, 0,-2, 0, 2.5}, // converge GS
 				{-1, 4,-1, 0, 0, 1},
@@ -425,6 +426,34 @@ public class Exec {
 		};
 		
 		Metodo metodo = new MultiGrid();
+		metodo.executar(matriz);
+		
+	}
+	
+	public static void decomposicaoLUComp() throws Exception {
+		
+		double[][] matriz = new double[][]{
+				/*
+				{2, 2, 1, 1, 7}, 
+				{1, -1, 2, -1, 1},
+				{3, 2, -3, -2, 4},
+				{4, 3, 2, 1, 12}
+				};
+				
+				/*
+				{-1, 2, 3, 1, 1},  
+				{2, -4, -5, -1, 0},  
+				{-3, 8, 8, 1, 2},  
+				{1, 2, -6, 4, -1}};
+				*/
+				
+				{2, -1, 4, 0, 5}, 
+				{4, -1, 5, 1, 9},
+				{-2, 2, -2, 3, 1},
+				{0, 3, -9, 4, -2}
+				};
+				
+		Metodo metodo = new DecomposicaoLUComp();
 		metodo.executar(matriz);
 		
 	}

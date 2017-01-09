@@ -1,7 +1,7 @@
 package br.cefet.alc.metodosdiretos;
 
-import br.cefet.alc.metodosdiretos.util.GaussResultado;
-import br.cefet.alc.metodosdiretos.util.Util;
+import br.cefet.alc.util.GaussResultado;
+import br.cefet.alc.util.Util;
 
 /**
  * @author rtavares
