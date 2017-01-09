@@ -1,6 +1,6 @@
 package br.cefet.alc.metodosdiretos.compactados;
 
-import br.cefet.alc.matrix.CSRMatrix;
+import br.cefet.alc.matrix.MatrizCSR;
 import br.cefet.alc.metodosdiretos.Metodo;
 import br.cefet.alc.util.Util;
 
@@ -42,7 +42,7 @@ public class DecomposicaoLUComp implements Metodo {
 		Util.get().escrever("Matriz Original: ");
 		Util.get().escreveMatriz(matriz);
 		
-		CSRMatrix cm = new CSRMatrix(matriz);
+		MatrizCSR cm = new MatrizCSR(matriz);
 		
 		Util.get().escrever("");
 		Util.get().escrever("Matriz Compactada: ");
@@ -57,19 +57,19 @@ public class DecomposicaoLUComp implements Metodo {
 		
 		double[] b = cm.getB();
 		
-		CSRMatrix LU = getLU(cm, permut);
+		MatrizCSR LU = getLU(cm, permut);
 		
 		Util.get().escrever("");
  		Util.get().escrever("LU: ");
         Util.get().escreveMatrizCSR(LU);
 		
-        CSRMatrix L = getL(LU);
+        MatrizCSR L = getL(LU);
 		
 		Util.get().escrever("");
  		Util.get().escrever("L: ");
         Util.get().escreveMatrizCSR(L);
 		
-        CSRMatrix U = getU(LU);
+        MatrizCSR U = getU(LU);
         
 		Util.get().escrever("");
         Util.get().escrever("U: ");
@@ -133,9 +133,9 @@ public class DecomposicaoLUComp implements Metodo {
 		
 	}
 	
-	public CSRMatrix getLU(CSRMatrix cm, int[] permut){
+	public MatrizCSR getLU(MatrizCSR cm, int[] permut){
 		
-		CSRMatrix LU = cm;
+		MatrizCSR LU = cm;
 		
 		int m = cm.getN();
 		int n = cm.getN();
@@ -212,11 +212,11 @@ public class DecomposicaoLUComp implements Metodo {
 		
 	}
 	
-	public CSRMatrix getL(CSRMatrix LU) {
+	public MatrizCSR getL(MatrizCSR LU) {
 		
 		int n = LU.getN();
 		
-		CSRMatrix L = new CSRMatrix(n);
+		MatrizCSR L = new MatrizCSR(n);
 		
 		for (int i = 0; i < n; i++) {
 			
@@ -245,11 +245,11 @@ public class DecomposicaoLUComp implements Metodo {
 		
 	}
 	
-	public CSRMatrix getU(CSRMatrix LU) {
+	public MatrizCSR getU(MatrizCSR LU) {
 		
 		int n = LU.getN();
 		
-		CSRMatrix U = new CSRMatrix(n);
+		MatrizCSR U = new MatrizCSR(n);
 		
 		for (int i = 0; i < n; i++) {
 			

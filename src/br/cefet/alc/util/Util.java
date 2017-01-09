@@ -7,7 +7,7 @@ import java.util.List;
 
 import Jama.Matrix;
 import Jama.QRDecomposition;
-import br.cefet.alc.matrix.CSRMatrix;
+import br.cefet.alc.matrix.MatrizCSR;
 
 /**
  * @author rtavares
@@ -158,7 +158,7 @@ public class Util {
 		
 	}
 	
-	public void escreveMatrizCSR(CSRMatrix m){
+	public void escreveMatrizCSR(MatrizCSR m){
 		
 		if(!debug)
 			return;

@@ -1,6 +1,6 @@
 package br.cefet.alc.util;
 
-import br.cefet.alc.matrix.CSRMatrix;
+import br.cefet.alc.matrix.MatrizCSR;
 
 
 /**
@@ -20,7 +20,7 @@ public class Teste {
 				
 		};
 		
-		CSRMatrix m = new CSRMatrix(matriz);
+		MatrizCSR m = new MatrizCSR(matriz);
 		
 		m.setValor(0, 0, 1.0);
 		m.setValor(0, 1, 2.0);
